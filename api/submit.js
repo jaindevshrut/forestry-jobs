@@ -7,9 +7,10 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 const url = process.env.MONGO_URL;
 console.log(url);
-console.log('printing')
+console.log('printing');
 mongoose.connect(url)
     .then(() => {
         console.log('Mongoose Connected');
@@ -17,10 +18,7 @@ mongoose.connect(url)
         console.error("Mongoose Not Connected", e);
     });
 
-
-
 const static_path = path.join(__dirname, "/");
-
 app.use(express.static(static_path));
 
 app.get('/', (req, res) => {
@@ -40,7 +38,8 @@ const newSchema = new mongoose.Schema({
     message: String,
 });
 
-const application = mongoose.model("register", newSchema);
+// Check if the model is already defined, otherwise define it
+const application = mongoose.models.register || mongoose.model("register", newSchema);
 
 app.post("/submit", upload.single('cv'), async (req, res) => {
     const { name, email, number, country, jobTitle, message } = req.body;
@@ -62,7 +61,6 @@ app.post("/submit", upload.single('cv'), async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
