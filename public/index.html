@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forestry Jobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="icon" href="/icon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #a0c0a0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            padding-top: 70px;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .job {
+            background: #111;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            transition: transform 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+        }
+        .job:hover {
+            transform: scale(1.02);
+        }
+        .job-image {
+            flex: 0 0 300px;
+            height: 200px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        .job:nth-child(even) .job-image {
+            order: 2;
+            margin-right: 0;
+            margin-left: 20px;
+        }
+        .job img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .job-info {
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        .job-header {
+            margin-bottom: 10px;
+        }
+        .job-header h2 {
+            margin: 0;
+        }
+        .job-description {
+            flex-grow: 1;
+        }
+        .apply-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .job:nth-child(even) .apply-btn-container {
+            justify-content: flex-start;
+        }
+        .apply-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .apply-btn:hover {
+            background: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal-content {
+            background-color: #111;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #4CAF50;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            animation: slideDown 0.5s ease-out;
+        }
+        .close {
+            color: #4CAF50;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #45a049;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #4CAF50;
+            background: #222;
+            color: #a0c0a0;
+            border-radius: 4px;
+        }
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+        }
+        .file-upload label {
+            margin-bottom: 5px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .job {
+                flex-direction: column;
+            }
+            .job-image {
+                flex: 0 0 200px;
+                margin-right: 0;
+                margin-left: 0;
+                margin-bottom: 20px;
+                order: 1;
+            }
+            .job:nth-child(even) .job-image {
+                order: 1;
+                margin-left: 0;
+            }
+            .job-info {
+                order: 2;
+            }
+            .apply-btn-container {
+                justify-content: center;
+            }
+            .job:nth-child(even) .apply-btn-container {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <input type="checkbox" name="" id="chk1">
+        <a href="http://127.0.0.1:5500/index.html">
+            <div class="logo">
+                <svg class="flicker-svg" viewBox="0 0 200 200">
+                    <image href="../1.svg" x="0" y="0" height="200px" width="200px" class="flicker-image-1" />
+                    <image href="2.svg" x="0" y="0" height="200px" width="200px" class="flicker-image-2" />
+                    <image href="3.svg" x="0" y="0" height="200px" width="200px" class="flicker-image-3" />
+                    <image href="4.svg" x="0" y="0" height="200px" width="200px" class="flicker-image-4" />
+                </svg>
+            </div>
+        </a>
+
+        <ul>
+            <li>
+                <div class="search-box">
+                    <input type="text" id="input-box" placeholder="Search any country/forest" autocomplete="off">
+                    <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <!-- <div class="result-box"></div> -->
+                </div>
+            </li>
+            <li><a href="http://127.0.0.1:5500/index.html">Home<span></span></a></li>
+            <li><a href="/Gallary/Gallary.html">Gallery<span></span></a></li>
+            <li><a href="/Carrers/carrers.html">Careers<span></span></a></li>
+            <li><a href="/Quiz/index.html">Quiz<span></span></a></li>
+        </ul>
+        <div class="menu">
+            <label for="chk1">
+                <i class="fa fa-bars"></i>
+            </label>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Forestry Jobs</h1>
+        
+        <div class="job">
+            <div class="job-image">
+                <img src="https://i.im.ge/2024/08/05/fXAJU1.Forest-and-Conservation-Workers.jpeg" alt="Forestry Technician">
+            </div>
+            <div class="job-info">
+                <div class="job-header">
+                    <h2>Forestry Technician</h2>
+                </div>
+                <div class="job-description">
+                    <p>Forestry technicians work in various natural resource and recreation areas, such as timber, wildlife, watershed management, botany, silviculture, and visitor services. They survey ecosystems, maintain trails, implement restorative projects, manage tree growth, and interact with the public.</p>
+                </div>
+                <div class="apply-btn-container">
+                    <button class="apply-btn" onclick="openModal('Forestry Technician')">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-image">
+                <img src="https://i.im.ge/2024/08/05/fXAetW.download-5.jpeg" alt="Forester">
+            </div>
+            <div class="job-info">
+                <div class="job-header">
+                    <h2>Forester</h2>
+                </div>
+                <div class="job-description">
+                    <p>Foresters manage timber resources by developing annual work plans and implementing short-range timber management programs. They create timber management plans based on ground surveys, maps, aerial photographs, and computer reports.</p>
+                </div>
+                <div class="apply-btn-container">
+                    <button class="apply-btn" onclick="openModal('Forester')">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-image">
+                <img src="https://i.im.ge/2024/08/05/fXCTOT.185289339-5-58bf08bf5f9b58af5cb5453f.jpeg" alt="Logger">
+            </div>
+            <div class="job-info">
+                <div class="job-header">
+                    <h2>Logger</h2>
+                </div>
+                <div class="job-description">
+                    <p>Loggers are involved in felling, grading, and managing timber. They determine social and forest regulations, examine cut wood for quality, and operate equipment like hoists, saws, and cranes.</p>
+                </div>
+                <div class="apply-btn-container">
+                    <button class="apply-btn" onclick="openModal('Logger')">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-image">
+                <img src="https://i.im.ge/2024/08/05/fXAvTP.images.jpeg" alt="Amenity Horticulturist">
+            </div>
+            <div class="job-info">
+                <div class="job-header">
+                    <h2>Amenity Horticulturist</h2>
+                </div>
+                <div class="job-description">
+                    <p>Amenity horticulturists manage public parks, street trees, and greenery in cities. They create aesthetic landscapes by placing, trimming, and shaping trees and shrubs.</p>
+                </div>
+                <div class="apply-btn-container">
+                    <button class="apply-btn" onclick="openModal('Amenity Horticulturist')">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-image">
+                <img src="https://i.im.ge/2024/08/05/fXAGsr.05-12-2023-19-52-19-5436158.jpeg" alt="Forest Ranger">
+            </div>
+            <div class="job-info">
+                <div class="job-header">
+                    <h2>Forest Ranger</h2>
+                </div>
+                <div class="job-description">
+                    <p>Forest rangers (also known as park rangers or fish and game wardens) are responsible for the health of federal or state forests and parks. They play a crucial role in preserving and managing these natural areas.</p>
+                </div>
+                <div class="apply-btn-container">
+                    <button class="apply-btn" onclick="openModal('Forest Ranger')">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Job Application</h2>
+            <form id="applicationForm" method="post" action="/submit" enctype="multipart/form-data">
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="tel" id="number" name="number" placeholder="Phone Number" required>
+                <input type="text" id="country" name="country" placeholder="Country" required>
+                <select id="jobTitle" name="jobTitle" required>
+                    <option value="">Select Job Title</option>
+                    <option value="Forestry Technician">Forestry Technician</option>
+                    <option value="Forester">Forester</option>
+                    <option value="Logger">Logger</option>
+                    <option value="Amenity Horticulturist">Amenity Horticulturist</option>
+                    <option value="Forest Ranger">Forest Ranger</option>
+                </select>
+                <div class="file-upload">
+                    <label for="cv">Upload your CV (PDF, DOC, or DOCX)</label>
+                    <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+                </div>
+                <textarea id="message" name="message" placeholder="Additional Message" rows="4"></textarea>
+                <button type="submit" class="apply-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        var modal = document.getElementById("applicationModal");
+        var span = document.getElementsByClassName("close")[0];
+        var jobTitleSelect = document.getElementById("jobTitle");
+
+        function openModal(jobTitle) {
+            modal.style.display = "block";
+            jobTitleSelect.value = jobTitle;
+        }
+
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        
+
+
+
+
+    </script>
+</body>
+</html>
