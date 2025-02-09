@@ -17,7 +17,6 @@ const newSchema = new mongoose.Schema({
     country: String,
     jobTitle: String,
     message: String,
-    cv: String // Store only file URL
 });
 
 const Application = mongoose.model("register", newSchema);
@@ -29,20 +28,12 @@ export default async function handler(req, res) {
 
     const form = new IncomingForm();
 
-    form.parse(req, async (err, fields, files) => {
+    form.parse(req, async (err, fields) => {
         if (err) {
             return res.status(500).json({ error: "Error parsing the form" });
         }
 
         const { name, email, number, country, jobTitle, message } = fields;
-        const file = files.cv;
-
-        if (!file) {
-            return res.status(400).json({ error: "File upload required" });
-        }
-
-        // Upload file to a cloud storage (e.g., S3, Cloudinary)
-        const fileUrl = `/uploads/${file.originalFilename}`; // Replace with cloud storage URL
 
         const newData = new Application({
             name,
@@ -51,7 +42,6 @@ export default async function handler(req, res) {
             country,
             jobTitle,
             message,
-            cv: fileUrl
         });
 
         try {

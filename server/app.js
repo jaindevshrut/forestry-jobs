@@ -62,7 +62,7 @@ const newSchema = new mongoose.Schema({
     message: String,
     cv : {
         type : String,
-        require : true
+        require : false
     }
 });
 
