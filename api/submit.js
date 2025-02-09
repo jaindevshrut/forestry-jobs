@@ -39,7 +39,7 @@ const newSchema = new mongoose.Schema({
 });
 
 // Check if the model is already defined, otherwise define it
-const application = mongoose.models.register || mongoose.model("register", newSchema);
+const application = mongoose.models.register || mongoose.model("applications", newSchema);
 
 app.post("/api/submit", async (req, res) => {
     const { name, email, number, country, jobTitle, message } = req.body;
