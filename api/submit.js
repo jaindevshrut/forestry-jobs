@@ -5,8 +5,9 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 8080;
 
+// Middleware to handle form data and JSON
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));  // Allows form data with multipart
 
 const url = process.env.MONGO_URL;
 console.log(url);
@@ -38,11 +39,13 @@ const newSchema = new mongoose.Schema({
     message: String,
 });
 
-// Check if the model is already defined, otherwise define it
-const application = mongoose.models.register || mongoose.model("register", newSchema);
+// Ensure model creation does not overwrite the existing one
+const application = mongoose.models.applications || mongoose.model("applications", newSchema);
 
 app.post("/api/submit", async (req, res) => {
     const { name, email, number, country, jobTitle, message } = req.body;
+
+    console.log('Form Data:', req.body);  // Add this line to check if data is correctly coming through
     
     const newData = new application({
         name: name,
