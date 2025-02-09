@@ -39,6 +39,8 @@ const newSchema = new mongoose.Schema({
     message: String,
 });
 
+// Check if the model is already defined, otherwise define it
+const application = mongoose.models.register || mongoose.model("applications", newSchema);
 // Ensure model creation does not overwrite the existing one
 const application = mongoose.models.applications || mongoose.model("applications", newSchema);
 
