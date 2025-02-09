@@ -41,7 +41,7 @@ const newSchema = new mongoose.Schema({
 // Check if the model is already defined, otherwise define it
 const application = mongoose.models.register || mongoose.model("register", newSchema);
 
-app.post("/submit", upload.single('cv'), async (req, res) => {
+app.post("/submit", async (req, res) => {
     const { name, email, number, country, jobTitle, message } = req.body;
     
     const newData = new application({
@@ -52,7 +52,7 @@ app.post("/submit", upload.single('cv'), async (req, res) => {
         jobTitle: jobTitle,
         message: message,
     });
-    
+
     try {
         await newData.save();
         res.redirect('/');
