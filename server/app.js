@@ -7,16 +7,17 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 const url = process.env.MONGO_URL;
-console.log('MongoDB URL:', url);
-
+console.log(url);
+console.log('printing')
 mongoose.connect(url)
     .then(() => {
         console.log('Mongoose Connected');
     }).catch(e => {
         console.error("Mongoose Not Connected", e);
     });
+
+
 
 const multer = require('multer');
 const fs = require('fs');
@@ -35,6 +36,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+
+
+
+
 const static_path = path.join(__dirname, "/");
 
 app.use(express.static(static_path));
@@ -44,7 +50,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/submit', (req, res) => {
-    res.redirect('./index.html');
+    res.sendFile(path.join(__dirname, './submit.html'));
 });
 
 const newSchema = new mongoose.Schema({
@@ -85,8 +91,7 @@ app.post("/submit", upload.single('cv'), async (req, res) => {
     }
 });
 
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
-module.exports = app; // Export the app
