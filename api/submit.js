@@ -44,10 +44,28 @@ const newSchema = new mongoose.Schema({
 const application = mongoose.models.applications || mongoose.model("applications", newSchema);
 
 app.post("/api/submit", async (req, res) => {
-    const { name, email, number, country, jobTitle, message } = req.body;
+    const { name, email, number, country, jobTitle, message, 'g-recaptcha-response': token } = req.body;
 
-    console.log('Form Data:', req.body);  // Add this line to check if data is correctly coming through
-    
+    // ✅ Step 1: Check for reCAPTCHA token
+    if (!token) {
+        return res.status(400).send("reCAPTCHA token missing");
+    }
+
+    // ✅ Step 2: Verify with Google
+    const secretKey = process.env.RECAPTCHA_SECRET; // Must be set in your .env or Vercel environment
+    const verifyURL = `https://www.google.com/recaptcha/api/siteverify`;
+
+    try {
+        const response = await axios.post(verifyURL, null, {
+            params: {
+                secret: secretKey,
+                response: token
+            }
+        });
+
+        if (!response.data.success) {
+            return res.status(403).send("Failed reCAPTCHA verification");
+        }
     const newData = new application({
         name: name,
         email: email,
@@ -56,8 +74,6 @@ app.post("/api/submit", async (req, res) => {
         jobTitle: jobTitle,
         message: message,
     });
-
-    try {
         await newData.save();
         res.redirect('/');
     } catch (error) {
